@@ -400,6 +400,9 @@ func (s *Server) Wait() error {
 	return s.t.Wait()
 }
 
+// ErrStopping is the error indicates that server is stopping normally
+var ErrStopping = fmt.Errorf("stopping server")
+
 func (s *Server) Stop() {
 	defer s.closeLog()
 
@@ -409,7 +412,7 @@ func (s *Server) Stop() {
 	if s.metricsListener != nil {
 		s.metricsListener.Stop()
 	}
-	s.t.Kill(nil)
+	s.t.Kill(ErrStopping)
 	s.t.Wait()
 }
 

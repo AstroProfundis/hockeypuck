@@ -53,7 +53,7 @@ func main() {
 
 	srv.Start()
 
-	c := make(chan os.Signal, 4)
+	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1, syscall.SIGUSR2)
 	go func() {
 		for {
@@ -73,5 +73,8 @@ func main() {
 	}()
 
 	err = srv.Wait()
-	cmd.Die(err)
+	if err != server.ErrStopping {
+		cmd.Die(err)
+	}
+	cmd.Die(nil)
 }
