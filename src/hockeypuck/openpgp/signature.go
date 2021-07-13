@@ -34,6 +34,7 @@ type Signature struct {
 	RIssuerKeyID     string
 	Creation         time.Time
 	Expiration       time.Time
+	PolicyURI        string
 	Primary          bool
 	RevocationReason *packet.ReasonForRevocation
 }
@@ -126,6 +127,9 @@ func (sig *Signature) setSignature(s *packet.Signature, keyCreationTime time.Tim
 		sigKeyId := hex.EncodeToString(issuerKeyId[:])
 		sig.RIssuerKeyID = Reverse(sigKeyId)
 	}
+
+	// Extract the policy URI
+	sig.PolicyURI = s.PolicyURI
 
 	// Expiration time
 	if s.SigLifetimeSecs != nil {
