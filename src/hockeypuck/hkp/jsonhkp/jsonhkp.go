@@ -172,6 +172,7 @@ func NewUserID(from *openpgp.UserID) *UserID {
 
 type Signature struct {
 	SigType      int     `json:"sigType"`
+	SigLevel     int     `json:"sigLevel"`
 	Revocation   bool    `json:"revocation,omitempty"`
 	Primary      bool    `json:"primary,omitempty"`
 	IssuerKeyID  string  `json:"issuerKeyID,omitempty"`
@@ -192,6 +193,8 @@ func NewSignature(from *openpgp.Signature) *Signature {
 	}
 
 	switch to.SigType {
+	case 0x10, 0x11, 0x12, 0x13:
+		to.SigLevel = to.SigType - 0x10
 	case 0x20, 0x28, 0x30:
 		to.Revocation = true
 	}
