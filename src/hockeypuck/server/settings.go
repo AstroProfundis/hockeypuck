@@ -51,6 +51,7 @@ const (
 
 type HKPConfig struct {
 	Bind              string `toml:"bind"`
+	AdvBind           string `toml:"advertisedBind,omitempty"`
 	LogRequestDetails bool   `toml:"logRequestDetails"`
 
 	Queries queryConfig `toml:"queries"`

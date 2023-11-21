@@ -258,6 +258,9 @@ func (s *Server) stats(req *http.Request) (interface{}, error) {
 
 		Total: sksStats.Total,
 	}
+	if s.settings.HKP.AdvBind != "" {
+		result.HTTPAddr = s.settings.HKP.AdvBind
+	}
 
 	nodename, err := os.Hostname()
 	if err != nil {
