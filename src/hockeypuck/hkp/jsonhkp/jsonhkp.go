@@ -226,6 +226,7 @@ type Signature struct {
 	IssuerKeyID  string  `json:"issuerKeyID,omitempty"`
 	Creation     string  `json:"creation,omitempty"`
 	Expiration   string  `json:"expiration,omitempty"`
+	PolicyURI    string  `json:"policyURI,omitempty"`
 	NeverExpires bool    `json:"neverExpires,omitempty"`
 	Packet       *Packet `json:"packet,omitempty"`
 }
@@ -235,6 +236,7 @@ func NewSignature(from *openpgp.Signature) *Signature {
 		Packet:      NewPacket(&from.Packet),
 		SigType:     from.SigType,
 		IssuerKeyID: from.IssuerKeyID(),
+		PolicyURI:   from.PolicyURI,
 		Primary:     from.Primary,
 	}
 
