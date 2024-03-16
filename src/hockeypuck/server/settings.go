@@ -196,6 +196,7 @@ type Settings struct {
 
 	Contact      string `toml:"contact"`
 	Hostname     string `toml:"hostname"`
+	Nodename     string `toml:"nodename"`
 	EnableVHosts bool   `toml:"enableVHosts"`
 	Software     string
 	Version      string

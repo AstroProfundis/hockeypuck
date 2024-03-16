@@ -265,14 +265,18 @@ func (s *Server) stats(req *http.Request) (interface{}, error) {
 	nodename, err := os.Hostname()
 	if err != nil {
 		log.Warningf("cannot determine local hostname: %v", err)
-	} else {
-		result.Nodename = nodename
 	}
 
 	if s.settings.Hostname != "" {
 		result.Hostname = s.settings.Hostname
 	} else if nodename != "" {
 		result.Hostname = nodename
+	}
+
+	if s.settings.Nodename != "" {
+		result.Nodename = s.settings.Nodename
+	} else {
+		result.Nodename = nodename
 	}
 
 	if s.settings.EnableVHosts {
