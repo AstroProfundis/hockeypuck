@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"net/url"
 	"time"
 
 	"github.com/ProtonMail/go-crypto/openpgp/packet"
@@ -119,7 +120,13 @@ func (sig *Signature) setSignature(s *packet.Signature, keyCreationTime time.Tim
 	sig.Creation = s.CreationTime
 	sig.SigType = s.SigType
 	sig.RevocationReason = s.RevocationReason
-	sig.PolicyURI = s.PolicyURI
+
+	// Extract and validate the policy URI
+	if pURL, err := url.ParseRequestURI(s.PolicyURI); err == nil {
+		if pURL.Scheme == "http" || pURL.Scheme == "https" {
+			sig.PolicyURI = s.PolicyURI
+		}
+	}
 
 	// Extract the issuer key id
 	var issuerKeyId [8]byte
